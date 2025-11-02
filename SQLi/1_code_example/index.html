@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SQLi Demo (Intentionally Vulnerable)</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      main { max-width: 720px; margin: 0 auto; }
+      form { display: flex; gap: .5rem; margin: 1rem 0; }
+      input[type="search"]{ flex: 1; padding: .6rem .75rem; }
+      button { padding: .6rem 1rem; }
+      pre { background: #f6f6f6; padding: 1rem; border-radius: 6px; overflow: auto; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #ddd; padding: .5rem .6rem; }
+      th { background: #fafafa; text-align: left; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>SQL Injection Demo</h1>
+      <p>
+        This is an intentionally vulnerable example. The server builds SQL by
+        concatenating your input directly into the query string.
+      </p>
+
+      <form id="search-form" role="search">
+        <input id="q" name="q" type="search" placeholder="Search users by name or email" />
+        <button type="submit">Search</button>
+      </form>
+
+      <section>
+        <h2>Query Executed (Unsafe)</h2>
+        <pre id="query"></pre>
+      </section>
+
+      <section>
+        <h2>Results</h2>
+        <table id="results" aria-live="polite">
+          <thead>
+            <tr><th>ID</th><th>Name</th><th>Email</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>Try These Inputs</h2>
+        <ul>
+          <li><code>a</code> — normal search</li>
+          <li><code>' OR '1'='1</code> — shows how concatenation can break logic</li>
+          <li><code>%' UNION SELECT 999,'attacker','pwned@example.com' --</code> — classic UNION injection pattern</li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      const form = document.getElementById('search-form');
+      const input = document.getElementById('q');
+      const queryOut = document.getElementById('query');
+      const tbody = document.querySelector('#results tbody');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const q = input.value;
+        const res = await fetch(`/search?q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+
+        queryOut.textContent = data.sql || '';
+        tbody.innerHTML = '';
+        (data.results || []).forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${row.id}</td><td>${row.name}</td><td>${row.email}</td>`;
+          tbody.appendChild(tr);
+        });
+      });
+    </script>
+  </body>
+  </html>
+
