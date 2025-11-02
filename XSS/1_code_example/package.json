@@ -1,0 +1,13 @@
+{
+  "name": "vulnerable-code-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p .",
+    "watch": "tsc -w -p ."
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}
+
