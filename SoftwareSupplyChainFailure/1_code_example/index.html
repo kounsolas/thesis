@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Software Supply Chain Failure Demo</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f4f6fb; }
+      main { max-width: 720px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 6px 25px rgba(0,0,0,.08); }
+      h1 { margin-top: 0; }
+      section { margin-bottom: 2rem; }
+      button { padding: .65rem 1rem; font-size: 1rem; cursor: pointer; }
+      pre { background: #1e1e1e; color: #dcdcdc; padding: 1rem; border-radius: 6px; overflow: auto; }
+      code { background: #f1f1f1; padding: .15rem .4rem; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Software Supply Chain Failure</h1>
+      <p>
+        This demo auto-loads third-party plugins from a vendor manifest without validation.
+        If the vendor is compromised (or the manifest is tampered with), arbitrary code
+        executes on every visitor. This maps to <strong>CWE-447</strong> — reliance on untrusted inputs for
+        security decisions.
+      </p>
+
+      <section>
+        <h2>Loaded Manifest</h2>
+        <button id="load">Fetch &amp; Execute Plugins</button>
+        <pre id="manifest-output">{ }
+</pre>
+      </section>
+
+      <section>
+        <h2>What To Demo</h2>
+        <ul>
+          <li>Click “Fetch &amp; Execute Plugins” — the UI requests <code>/api/plugin-manifest</code>.</li>
+          <li>For each plugin entry, the page downloads the script specified by the vendor.</li>
+          <li>The provided plugin is already “compromised”: it logs cookies and displays a banner.</li>
+          <li>Explain how an attacker controlling the manifest or CDN can run any JS on your site.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Fix Ideas</h2>
+        <ul>
+          <li>Pin versions and verify integrity/signatures of third-party assets.</li>
+          <li>Host critical dependencies yourself; avoid runtime eval of vendor content.</li>
+          <li>Whitelabel plugin list and require manual review before promotion.</li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      const loadBtn = document.getElementById('load');
+      const manifestOut = document.getElementById('manifest-output');
+
+      async function loadPlugins() {
+        const res = await fetch('/api/plugin-manifest');
+        const manifest = await res.json();
+        manifestOut.textContent = JSON.stringify(manifest, null, 2);
+
+        (manifest.plugins || []).forEach(async (plugin) => {
+          // Intentionally unsafe: trust vendor-provided URL & execute script
+          const script = document.createElement('script');
+          script.src = plugin.url;
+          script.defer = false;
+          document.body.appendChild(script);
+        });
+      }
+
+      loadBtn.addEventListener('click', loadPlugins);
+    </script>
+  </body>
+</html>
+

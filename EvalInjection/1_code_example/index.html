@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eval / Code Injection Demo</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f5f7fb; }
+      main { max-width: 720px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 6px 25px rgba(0,0,0,.08); }
+      h1 { margin-top: 0; }
+      textarea { width: 100%; min-height: 120px; padding: .8rem; font-family: Consolas, monospace; font-size: 1rem; }
+      button { margin-top: .75rem; padding: .65rem 1.1rem; font-size: 1rem; cursor: pointer; }
+      pre { background: #1e1e1e; color: #dcdcdc; padding: 1rem; border-radius: 6px; overflow: auto; white-space: pre-wrap; }
+      ul { line-height: 1.6; }
+      code { background: #f0f0f0; padding: .15rem .4rem; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Eval / Code Injection</h1>
+      <p>
+        This demo sends arbitrary JavaScript to the server, which evaluates it with <code>eval()</code>.
+        Anyone can run code on the server, illustrating <strong>CWE-95</strong> (Improper Neutralization of
+        Directives in Dynamically Evaluated Code).
+      </p>
+
+      <label for="code">JavaScript to run on the server</label>
+      <textarea id="code">2 + 2</textarea>
+      <button id="run">Run server-side</button>
+
+      <pre id="output">{ }
+</pre>
+
+      <section>
+        <h2>Try These Snippets</h2>
+        <ul>
+          <li><code>2 + 2</code> — benign arithmetic.</li>
+          <li><code>process.cwd()</code> — reveals server info.</li>
+          <li><code>require('fs').readdirSync('.') </code> — lists files on the server.</li>
+          <li><code>require('child_process').execSync('dir').toString()</code> — escalates to command execution.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Fix Ideas</h2>
+        <ul>
+          <li>Never run untrusted code via <code>eval</code>, <code>Function</code>, or similar interpreters.</li>
+          <li>Use safe interpreters or sandboxing if dynamic logic is required.</li>
+          <li>Provide a curated set of operations (allowlist) instead of arbitrary code.</li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      const runBtn = document.getElementById('run');
+      const codeInput = document.getElementById('code');
+      const output = document.getElementById('output');
+
+      runBtn.addEventListener('click', async () => {
+        const code = codeInput.value;
+        const res = await fetch('/api/eval', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code })
+        });
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      });
+    </script>
+  </body>
+</html>
+

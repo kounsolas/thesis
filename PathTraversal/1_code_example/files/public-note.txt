@@ -1,0 +1,3 @@
+This is a public note stored in the files directory.
+Feel free to read this file via /download?file=public-note.txt.
+

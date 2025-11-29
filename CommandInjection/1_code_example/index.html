@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Command Injection Demo</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f4f6fb; }
+      main { max-width: 720px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 6px 25px rgba(0,0,0,.08); }
+      h1 { margin-top: 0; }
+      form { display: flex; gap: .5rem; margin: 1rem 0; }
+      input { flex: 1; padding: .6rem .75rem; }
+      button { padding: .65rem 1rem; }
+      pre { background: #1e1e1e; color: #dcdcdc; padding: 1rem; border-radius: 6px; overflow: auto; white-space: pre-wrap; }
+      ul { line-height: 1.5; }
+      code { background: #f0f0f0; padding: .15rem .4rem; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Command Injection Vulnerability</h1>
+      <p>
+        The backend executes whatever shell command you submit—no validation. This intentionally demonstrates
+        <strong>CWE-78</strong> (Improper Neutralization of Special Elements used in an OS Command).
+      </p>
+
+      <form id="command-form">
+        <input id="command-input" type="text" value="echo hello" />
+        <button type="submit">Run</button>
+      </form>
+
+      <pre id="output">{ }
+</pre>
+
+      <section>
+        <h2>Try These Commands</h2>
+        <ul>
+          <li><code>echo hello</code> — harmless baseline.</li>
+          <li><code>dir</code> (Windows) or <code>ls</code> (macOS/Linux) — lists server files.</li>
+          <li><code>dir & type secrets\admin-passwords.txt</code> — chains commands to read sensitive files.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Fix Ideas</h2>
+        <ul>
+          <li>Never pass raw user input to a shell; use safe APIs or allowlists.</li>
+          <li>Parameterize commands and validate arguments strictly.</li>
+          <li>Run processes with least privilege and disable shell metacharacters.</li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      const form = document.getElementById('command-form');
+      const input = document.getElementById('command-input');
+      const output = document.getElementById('output');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const cmd = input.value;
+        const res = await fetch('/api/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cmd })
+        });
+        output.textContent = JSON.stringify(await res.json(), null, 2);
+      });
+    </script>
+  </body>
+</html>
+

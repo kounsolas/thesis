@@ -1,0 +1,12 @@
+{
+  "vendor": "Acme Widgets CDN",
+  "lastUpdated": "2024-11-01T00:00:00Z",
+  "plugins": [
+    {
+      "name": "feedback-widget",
+      "description": "Collects feedback from visitors.",
+      "url": "/vendor/plugins/feedback-widget.js"
+    }
+  ]
+}
+
