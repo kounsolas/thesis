@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Security Misconfiguration Demo</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f4f6fb; }
+      main { max-width: 760px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,.08); }
+      h1 { margin-top: 0; }
+      section { margin-bottom: 2rem; }
+      button { padding: .65rem 1.1rem; font-size: 1rem; cursor: pointer; }
+      pre { background: #1e1e1e; color: #dcdcdc; padding: 1rem; border-radius: 6px; overflow: auto; }
+      a { color: #1f6feb; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Security Misconfiguration</h1>
+      <p>
+        This demo intentionally leaves debug mode enabled and exposes sensitive configuration files
+        through static hosting. Use it to show why hardening defaults and disabling debug features in
+        production is critical.
+      </p>
+
+      <section>
+        <h2>Debug Endpoint Left Enabled</h2>
+        <p>
+          Click the button to call <code>/api/debug/info</code>. In real deployments this should be disabled,
+          but a misconfiguration exposes environment variables and secrets.
+        </p>
+        <button id="debug-btn">Fetch Debug Info</button>
+        <pre id="debug-output">{ }
+</pre>
+      </section>
+
+      <section>
+        <h2>Sensitive Files Served Publicly</h2>
+        <p>
+          Because the server serves the entire folder statically, you can read
+          <code>config/secret-config.json</code> directly.
+        </p>
+        <p>
+          <a href="/config/secret-config.json" target="_blank">Open secret-config.json</a>
+        </p>
+      </section>
+
+      <section>
+        <h2>Teaching Ideas</h2>
+        <ul>
+          <li>Explain why debug endpoints should be guarded by environment toggles and authentication.</li>
+          <li>Show how default/static hosting configuration can leak sensitive files.</li>
+          <li>Discuss best practices: least privilege, deny-by-default, environment-specific configs.</li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      const btn = document.getElementById('debug-btn');
+      const output = document.getElementById('debug-output');
+
+      btn.addEventListener('click', async () => {
+        const res = await fetch('/api/debug/info');
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      });
+    </script>
+  </body>
+</html>
+

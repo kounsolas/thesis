@@ -4,6 +4,9 @@ Purpose
 What It Shows
 - Vulnerability type: DOM-based XSS (unsanitized input injected into the page as HTML).
 
+CWE Mapping
+- CWE-79: Improper Neutralization of Input During Web Page Generation (Cross-site Scripting).
+
 Quick Demo (View the Vulnerability)
 - Open `index.html` in a browser.
 - Type `<b>This should be bold</b>` in the search box and click Search.

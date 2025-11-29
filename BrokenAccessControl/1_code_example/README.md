@@ -5,6 +5,10 @@ What this shows
   1. Insecure Direct Object Reference (IDOR) — `/api/account/:id` returns any user record, no auth.
   2. Role tampering — `/api/admin?role=admin` trusts client-side role to grant admin data.
 
+CWE Mapping
+- CWE-639: Authorization Bypass Through User-Controlled Key (IDOR example).
+- CWE-285: Improper Authorization / Role Validation (trusting `role=admin`).
+
 How to run
 1. `cd BrokenAccessControl/1_code_example`
 2. `npm install`
@@ -20,4 +24,3 @@ Fix ideas for your lesson
 - Require authentication and server-side session checks before returning account data.
 - Enforce authorization rules on the server, not via query parameters supplied by the client.
 - Use middleware to check user roles/permissions and ignore untrusted role inputs.
-

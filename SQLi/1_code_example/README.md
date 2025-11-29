@@ -4,6 +4,9 @@ What this shows
 - Vulnerability: SQL injection via concatenating untrusted input into a SQL string.
 - File with the vulnerability: `server.js` (`/search` endpoint builds SQL with `+ q +`).
 
+CWE Mapping
+- CWE-89: Improper Neutralization of Special Elements used in an SQL Command (SQL Injection).
+
 Run locally (PowerShell or terminal)
 1) Change into this folder:
    - `cd SQLi/1_code_example`
@@ -28,4 +31,3 @@ How to fix (for teaching follow‑up)
 - Use parameterized queries / prepared statements.
 - Avoid building SQL with string concatenation.
 - Validate and constrain inputs at the application layer.
-
