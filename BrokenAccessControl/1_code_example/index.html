@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Broken Access Control Demo</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f7f7f7; }
+      main { max-width: 720px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,.08); }
+      section { margin-bottom: 2rem; }
+      label { display: block; margin-bottom: .5rem; font-weight: 600; }
+      input, button { padding: .6rem .75rem; font-size: 1rem; }
+      input { width: 100%; max-width: 240px; }
+      button { cursor: pointer; }
+      pre { background: #272822; color: #f8f8f2; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Broken Access Control Demo</h1>
+      <p>
+        This intentionally skips authentication checks. You can fetch any account
+        data or pretend to be an admin just by changing client-side inputs.
+      </p>
+
+      <section>
+        <h2>Account Lookup (IDOR)</h2>
+        <label for="account-id">Account ID</label>
+        <input id="account-id" type="number" min="1" value="1" />
+        <button id="load-account">Load Account</button>
+        <pre id="account-output">{ }
+</pre>
+      </section>
+
+      <section>
+        <h2>Fake Admin Access</h2>
+        <p>
+          The backend trusts the <code>?role=</code> value from the URL. Change it to
+          <code>admin</code> to see sensitive data.
+        </p>
+        <button id="view-admin">View Admin Endpoint</button>
+        <pre id="admin-output">{ }
+</pre>
+      </section>
+
+      <section>
+        <h2>Try These</h2>
+        <ul>
+          <li>ID 2 or 3 to read another user’s account.</li>
+          <li>Visit <code>/api/admin?role=admin</code> directly.</li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      const loadBtn = document.getElementById('load-account');
+      const accountIdInput = document.getElementById('account-id');
+      const accountOut = document.getElementById('account-output');
+      const adminBtn = document.getElementById('view-admin');
+      const adminOut = document.getElementById('admin-output');
+
+      loadBtn.addEventListener('click', async () => {
+        const id = accountIdInput.value;
+        const res = await fetch(`/api/account/${id}`);
+        accountOut.textContent = JSON.stringify(await res.json(), null, 2);
+      });
+
+      adminBtn.addEventListener('click', async () => {
+        const res = await fetch('/api/admin?role=admin');
+        adminOut.textContent = JSON.stringify(await res.json(), null, 2);
+      });
+    </script>
+  </body>
+</html>
+

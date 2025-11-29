@@ -1,0 +1,13 @@
+{
+  "name": "broken-access-control-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Intentionally vulnerable Broken Access Control example",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+
