@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Member Portal</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; background: #f4f6fb; }
+      main { max-width: 420px; margin: 5rem auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
+      h1 { margin-top: 0; text-align: center; }
+      label { display: block; margin: 1rem 0 .35rem; font-weight: 600; }
+      input { width: 100%; padding: .65rem .75rem; border: 1px solid #d9dce3; border-radius: 6px; font-size: 1rem; }
+      button { margin-top: 1.25rem; width: 100%; padding: .7rem; background: #1f6feb; color: #fff; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; }
+      button:hover { background: #1851a3; }
+      pre { background: #111; color: #e3e3e3; padding: 1rem; border-radius: 8px; font-size: .9rem; margin-top: 1.5rem; min-height: 80px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Member Login</h1>
+      <form id="login-form">
+        <label for="username">Username</label>
+        <input id="username" name="username" autocomplete="username" />
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" />
+        <button type="submit">Sign in</button>
+      </form>
+      <pre id="response">{ }
+</pre>
+    </main>
+
+    <script>
+      const form = document.getElementById('login-form');
+      const output = document.getElementById('response');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const payload = {
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        };
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        output.textContent = JSON.stringify(await res.json(), null, 2);
+      });
+    </script>
+  </body>
+</html>
+
