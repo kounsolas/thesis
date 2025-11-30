@@ -8,7 +8,7 @@ CWE Mapping
 - CWE-79: Improper Neutralization of Input During Web Page Generation (Cross-site Scripting).
 
 Quick Demo (View the Vulnerability)
-- Open `index.html` in a browser.
+- From a terminal, run `start index.html` (PowerShell/cmd) or open the file manually in a browser.
 - Type `<b>This should be bold</b>` in the search box and click Search.
 - The page renders bold text in the “Results for:” area. That happens because user input is inserted with `innerHTML` instead of being treated as plain text — a DOM XSS risk.
 
@@ -32,6 +32,7 @@ Scan Instructions (Bearer or similar)
 Optional TypeScript Workflow
 - Install deps: `npm install`
 - Build once or watch: `npm run build` or `npm run watch`
+- Run `start index.html`
 - Note: the page loads `main.js`. You don’t need to build for the demo, but `main.dom-xss.ts` is kept for static analysis and teaching.
 
 How to Fix (for your lesson follow-up)
