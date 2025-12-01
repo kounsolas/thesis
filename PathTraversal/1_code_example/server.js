@@ -18,7 +18,8 @@ app.get('/download', (req, res) => {
   }
 
   const requestedPath = path.join(FILES_DIR, fileParam);
-
+  //const requestedPath = path.join(FILES_DIR, fileParam.replace(/^(\.\.(\/|\\\\|$))+/, '').replace(/%00/g, ''));
+  
   fs.readFile(requestedPath, 'utf8', (err, data) => {
     if (err) {
       return res.status(404).json({ error: 'Could not read file', details: String(err) });

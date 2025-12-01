@@ -1,0 +1,12 @@
+{
+  "name": "path-traversal-demo-2",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+

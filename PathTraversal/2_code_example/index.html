@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>File Fetcher</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f5f7fb; }
+      main { max-width: 680px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 6px 25px rgba(0,0,0,.08); }
+      h1 { margin-top: 0; }
+      form { display: flex; gap: .5rem; margin: 1rem 0; }
+      input { flex: 1; padding: .65rem .75rem; }
+      button { padding: .65rem 1rem; }
+      pre { background: #1e1e1e; color: #dcdcdc; padding: 1rem; border-radius: 6px; overflow: auto; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>File Fetcher</h1>
+      <p>Enter a filename to retrieve its contents.</p>
+      <form id="fetch-form">
+        <input id="file" name="file" type="text" placeholder="e.g., readme.txt" />
+        <button type="submit">Fetch</button>
+      </form>
+      <pre id="output">{ }</pre>
+    </main>
+
+    <script>
+      const form = document.getElementById('fetch-form');
+      const fileInput = document.getElementById('file');
+      const output = document.getElementById('output');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const file = fileInput.value;
+        const res = await fetch(`/download?file=${encodeURIComponent(file)}`);
+        output.textContent = JSON.stringify(await res.json(), null, 2);
+      });
+    </script>
+  </body>
+</html>
+
