@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SSRF Proxy Demo</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f5f7fb; }
+      main { max-width: 720px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.08); }
+      h1 { margin-top: 0; }
+      form { display: flex; gap: .5rem; margin: 1rem 0; }
+      input { flex: 1; padding: .65rem .75rem; }
+      button { padding: .65rem 1rem; }
+      pre { background: #111; color: #e6e6e6; padding: 1rem; border-radius: 8px; overflow: auto; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Fetch via Server</h1>
+      <form id="proxy-form">
+        <input id="url" name="url" type="text" placeholder="Enter a URL to fetch" />
+        <button type="submit">Send</button>
+      </form>
+      <pre id="output">{ }</pre>
+    </main>
+
+    <script>
+      const form = document.getElementById('proxy-form');
+      const input = document.getElementById('url');
+      const output = document.getElementById('output');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const url = input.value;
+        const res = await fetch('/api/proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        output.textContent = JSON.stringify(await res.json(), null, 2);
+      });
+    </script>
+  </body>
+</html>
+

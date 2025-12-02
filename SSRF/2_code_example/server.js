@@ -1,19 +1,20 @@
-const path = require('path');
 const express = require('express');
+const path = require('path');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetchFn }) => fetchFn(...args));
 
 const app = express();
-const PORT = process.env.PORT || 3009;
+const PORT = process.env.PORT || 3010;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-app.get('/internal/secret', (req, res) => {
+app.get('/internal/config', (req, res) => {
   res.json({
-    secret: 'FLAG-12345',
-    note: 'Only internal services should see this, but SSRF can expose it.'
+    dbPassword: 'super-secret-password',
+    token: 'FLAG-SSRF-002',
+    note: 'Internal-only metadata; should not be reachable externally.'
   });
 });
 
@@ -24,9 +25,9 @@ app.post('/api/proxy', async (req, res) => {
   }
 
   try {
-    const allowedHosts = ['example.com', 'api1.com', 'api2.com'];
+    const allowedHosts = new Set(['example.com', 'github.com']);
     const url = new URL(target);
-    if (!allowedHosts.includes(url.hostname) || !['http:', 'https:'].includes(url.protocol)) {
+    if (!allowedHosts.has(url.hostname) || !['http:', 'https:'].includes(url.protocol)) {
       return res.status(400).json({ error: 'Invalid URL' });
     }
     const response = await fetch(target, { timeout: 5000 });
@@ -39,5 +40,6 @@ app.post('/api/proxy', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`SSRF demo on http://localhost:${PORT}`);
+  console.log(`SSRF demo #2 running at http://localhost:${PORT}`);
 });
+

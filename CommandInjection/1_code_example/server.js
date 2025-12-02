@@ -9,8 +9,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// Intentionally vulnerable endpoint: runs whatever shell command the user submits.
-// Demonstrates classic command injection (CWE-78).
 app.post('/api/run', (req, res) => {
   const cmd = (req.body.cmd || '').toString();
   if (!cmd.trim()) {

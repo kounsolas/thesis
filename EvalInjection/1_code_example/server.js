@@ -8,12 +8,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-// Intentionally vulnerable endpoint: evaluates arbitrary JS from the client
-// Demonstrates code injection via eval (CWE-95)
 app.post('/api/eval', (req, res) => {
   const code = (req.body.code || '').toString();
   try {
-    // eslint-disable-next-line no-eval
     const result = eval(code);
     res.json({ code, result });
   } catch (error) {
