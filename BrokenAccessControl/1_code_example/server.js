@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3002;
 
 app.use(express.json());
 app.use(express.static(__dirname));
+app.disable('x-powered-by'); // reduce server fingerprinting
 
 // Fake database
 const accounts = [
@@ -14,7 +15,7 @@ const accounts = [
   { id: 3, name: 'Charlie (standard)', role: 'user', balance: 400 }
 ];
 
-// Intentionally broken access control: trusts client-provided userId
+// IDOR: trusts client-provided id with no authentication/authorization
 app.get('/api/account/:id', (req, res) => {
   const id = Number(req.params.id);
   const account = accounts.find((acct) => acct.id === id);
@@ -25,19 +26,6 @@ app.get('/api/account/:id', (req, res) => {
   res.json(account);
 });
 
-// Extra endpoint to demonstrate privilege escalation via query parameter
-app.get('/api/admin', (req, res) => {
-  const role = req.query.role || 'user';
-  if (role === 'admin') {
-    return res.json({
-      role,
-      message: 'Sensitive admin data: system backups, user export link, etc.'
-    });
-  }
-  res.status(403).json({ error: 'Only admins should see this, but role can be faked.' });
-});
-
 app.listen(PORT, () => {
-  console.log(`Broken Access Control demo running on http://localhost:${PORT}`);
+  // intentionally quiet to avoid leaking details via logs
 });
-
