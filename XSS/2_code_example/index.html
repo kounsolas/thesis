@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Traveler Stories</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --text: #1f2933;
+        --muted: #5f6b7a;
+        --accent: #2563eb;
+        --border: #e5e7eb;
+      }
+      body { font-family: "Segoe UI", Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+      header { background: linear-gradient(135deg, #1f6feb, #6fb1ff); color: #fff; padding: 2.5rem 1.5rem; text-align: center; }
+      header h1 { margin: 0 0 .5rem 0; font-size: 2rem; }
+      header p { margin: 0; color: rgba(255,255,255,.9); }
+      main { max-width: 900px; margin: -60px auto 0; padding: 0 1.5rem 3rem; }
+      .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.06); padding: 1.75rem; }
+      .grid { display: grid; grid-template-columns: 1.4fr .9fr; gap: 1rem; }
+      form { display: flex; flex-direction: column; gap: .75rem; }
+      label { font-weight: 600; }
+      input, textarea { padding: .65rem .75rem; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px; }
+      button { padding: .65rem 1.1rem; font-size: 1rem; cursor: pointer; background: var(--accent); color: #fff; border: none; border-radius: 8px; }
+      button:hover { background: #1c56c4; }
+      #comments { display: flex; flex-direction: column; gap: .75rem; margin-top: 1rem; }
+      .comment { padding: .9rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: #fafafa; }
+      .comment .meta { color: var(--muted); font-size: .9rem; margin-bottom: .35rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Traveler Stories</h1>
+      <p>Share a quick note about your favorite destination.</p>
+    </header>
+    <main>
+      <div class="panel">
+        <div class="grid">
+          <section>
+            <h2>Recent Notes</h2>
+            <div id="comments"></div>
+          </section>
+          <section>
+            <h2>Share Yours</h2>
+            <form id="comment-form">
+              <div>
+                <label for="name">Name</label>
+                <input id="name" name="name" placeholder="e.g., Samira" />
+              </div>
+              <div>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="What made the trip special?" rows="5"></textarea>
+              </div>
+              <button type="submit">Post</button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>
