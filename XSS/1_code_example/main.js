@@ -24,7 +24,7 @@ const filterProducts = (term) => {
 searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const term = searchInput.value;
-    //resultsBox.innerHTML = `Results for: ${term}`;
-    resultsBox.innerHTML = `Results for: ${term.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;')}`;
+    resultsBox.innerHTML = `Results for: ${term}`;
+    //resultsBox.innerHTML = `Results for: ${term.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;')}`;
     filterProducts(term);
 });

@@ -1,0 +1,4 @@
+Billing FAQ
+- How do I update my card? Go to Settings > Billing.
+- Where can I download invoices? In the Billing section of your account.
+

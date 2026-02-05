@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Support Knowledge Base</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; background: #f6f8fb; }
+      main { max-width: 760px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+      h1 { margin-top: 0; }
+      .list { margin: 1rem 0; padding: 0; list-style: none; }
+      .list li { padding: .5rem 0; }
+      form { display: flex; gap: .5rem; margin: 1rem 0; }
+      input { flex: 1; padding: .6rem .75rem; }
+      button { padding: .6rem 1rem; }
+      pre { background: #111; color: #e6e6e6; padding: 1rem; border-radius: 8px; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Support Knowledge Base</h1>
+      <p>Select a document or type a filename to view it.</p>
+      <ul class="list">
+        <li>getting-started.txt</li>
+        <li>billing-faq.txt</li>
+        <li>troubleshooting.txt</li>
+      </ul>
+      <form id="doc-form">
+        <input id="doc" name="doc" placeholder="e.g., getting-started.txt" />
+        <button type="submit">View</button>
+      </form>
+      <pre id="output">{ }</pre>
+    </main>
+
+    <script>
+      const form = document.getElementById('doc-form');
+      const input = document.getElementById('doc');
+      const output = document.getElementById('output');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const doc = input.value;
+        const res = await fetch(`/view?doc=${encodeURIComponent(doc)}`);
+        output.textContent = await res.text();
+      });
+    </script>
+  </body>
+</html>
+
