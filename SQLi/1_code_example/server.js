@@ -31,14 +31,11 @@ db.serialize(() => {
 // Serve the static demo page from this folder
 app.use(express.static(__dirname));
 
-// Intentionally vulnerable SQL query (DO NOT USE IN REAL CODE)
-// Demonstration endpoint: string-concatenated input in SQL WHERE clause
+
 app.get('/search', (req, res) => {
   const q = (req.query.q || '').toString();
-  // Vulnerable: unsafely concatenating untrusted input into SQL
   const sql ="SELECT id, name, email FROM users WHERE name LIKE '%"+q+"%' OR email LIKE '%"+q+"%'";
   db.all(sql, (err, rows) => {
-  //db.all("SELECT id, name, email FROM users WHERE name LIKE '%' || ? || '%' OR email LIKE '%' || ? || '%'", [q, q], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: String(err) });
     }

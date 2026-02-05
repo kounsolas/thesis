@@ -1,4 +1,3 @@
-// Vulnerability: DOM-based XSS via unsanitized innerHTML
 type Product = {
   name: string;
   element: HTMLLIElement;
@@ -36,8 +35,6 @@ const filterProducts = (term: string) => {
 searchForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const term = searchInput.value;
-  // Intentionally unsafe: directly injects user input without sanitization
-  //resultsBox.innerHTML = `Results for: ${term}`;
-  resultsBox.innerHTML = `Results for: ${term.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}`;
+  resultsBox.innerHTML = `Results for: ${term}`;
   filterProducts(term);
 });

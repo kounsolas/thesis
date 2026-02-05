@@ -1,23 +1,25 @@
-const path = require('path');
 const express = require('express');
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetchFn }) => fetchFn(...args));
 
 const app = express();
-const PORT = process.env.PORT || 3009;
+const PORT = process.env.PORT || 3017;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-app.get('/internal/secret', (req, res) => {
+// Internal-only endpoint (simulates a metadata/service endpoint)
+app.get('/internal/report', (_req, res) => {
   res.json({
-    secret: 'FLAG-12345',
-    note: 'Only internal services should see this, but SSRF can expose it.'
+    reportId: 'INT-9032',
+    owner: 'Ops',
+    secret: 'FLAG-SSRF-003',
+    note: 'This should not be accessible externally.'
   });
 });
 
-app.post('/api/proxy', async (req, res) => {
+app.post('/api/fetch', async (req, res) => {
   const target = (req.body.url || '').toString();
   if (!target) {
     return res.status(400).json({ error: 'Provide a URL to fetch' });
@@ -33,5 +35,6 @@ app.post('/api/proxy', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`SSRF demo on http://localhost:${PORT}`);
+  console.log(`SSRF demo #3 running at http://localhost:${PORT}`);
 });
+

@@ -8,9 +8,7 @@ if (!comments || !form) {
 function appendComment(name, message) {
   const div = document.createElement("div");
   div.className = "comment";
-  // Vulnerable: directly injects user input into the DOM via innerHTML
   div.innerHTML = "<div class='meta'>" + name + " wrote:</div><div>" + message + "</div>";
-  //div.innerHTML = "<div class='meta'>" + name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + " wrote:</div><div>" + message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</div>";
   comments.prepend(div);
 }
 

@@ -39,10 +39,9 @@ app.post('/login', (req, res) => {
     "' AND password = '" +
     password +
     "'";
+  
 
   db.get(sql, (err, row) => {
-  // const sql = "SELECT id, username, full_name FROM users WHERE username = ? AND password = ?";
-  // db.get(sql, [username, password], (err, row) => {
     if (err) {
       return res.status(500).json({ error: String(err) });
     }

@@ -9,8 +9,6 @@ const FILES_DIR = path.join(__dirname, 'files');
 
 app.use(express.static(__dirname));
 
-// Vulnerable download endpoint: trusts user-provided `file` query parameter.
-// Attacker can use ../ sequences to read arbitrary files relative to project root.
 app.get('/download', (req, res) => {
   const fileParam = (req.query.file || '').toString();
   if (!fileParam) {
@@ -18,8 +16,7 @@ app.get('/download', (req, res) => {
   }
 
   const requestedPath = path.join(FILES_DIR, fileParam);
-  //const requestedPath = path.join(FILES_DIR, fileParam.replace(/^(\.\.(\/|\\\\|$))+/, '').replace(/%00/g, ''));
-  
+ 
   fs.readFile(requestedPath, 'utf8', (err, data) => {
     if (err) {
       return res.status(404).json({ error: 'Could not read file', details: String(err) });

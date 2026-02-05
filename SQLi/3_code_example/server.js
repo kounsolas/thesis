@@ -31,7 +31,6 @@ db.serialize(() => {
   });
 });
 
-// Intentionally vulnerable SQL: concatenates user input directly into the query
 app.get('/search', (req, res) => {
   const q = (req.query.q || '').toString();
   const sql = 
@@ -43,7 +42,7 @@ app.get('/search', (req, res) => {
     q +
     "%' OR description LIKE '%" +
     q +
-    "%'";
+   "%'";
 
   db.all(sql, (err, rows) => {
     if (err) {
@@ -56,4 +55,3 @@ app.get('/search', (req, res) => {
 app.listen(PORT, () => {
   console.log(`SQLi demo #3 running at http://localhost:${PORT}`);
 });
-

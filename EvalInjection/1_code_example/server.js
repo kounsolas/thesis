@@ -11,8 +11,7 @@ app.use(express.static(__dirname));
 app.post('/api/eval', (req, res) => {
   const code = (req.body.code || '').toString();
   try {
-    const result = code; // Replace eval with a safe alternative that does not execute user-provided code
-    //const result = eval(code);
+    const result = eval(code);
     res.json({ code, result });
   } catch (error) {
     res.status(400).json({ code, error: error.message });

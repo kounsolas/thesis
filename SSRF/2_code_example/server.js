@@ -25,13 +25,7 @@ app.post('/api/proxy', async (req, res) => {
   }
 
   try {
-    const allowedHosts = new Set(['example.com', 'github.com']);
-    const url = new URL(target);
-    if (!allowedHosts.has(url.hostname) || !['http:', 'https:'].includes(url.protocol)) {
-      return res.status(400).json({ error: 'Invalid URL' });
-    }
     const response = await fetch(target, { timeout: 5000 });
-    //const response = await fetch(target, { timeout: 5000 });
     const text = await response.text();
     res.json({ url: target, status: response.status, body: text.slice(0, 2000) });
   } catch (error) {
@@ -42,4 +36,3 @@ app.post('/api/proxy', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`SSRF demo #2 running at http://localhost:${PORT}`);
 });
-

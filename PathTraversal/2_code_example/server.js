@@ -17,11 +17,6 @@ app.get('/download', (req, res) => {
   }
 
   const filePath = path.join(FILE_ROOT, fileParam);
-  // const sanitizedPath = fileParam.replace(/^(\.\.(\/|\\\\|$))+/, '');
-  // if (sanitizedPath.indexOf('\0') !== -1) {
-  //   return res.status(404).json({ error: 'Could not read file', details: 'Invalid file path' });
-  // }
-  // const filePath = path.join(FILE_ROOT, sanitizedPath);
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
