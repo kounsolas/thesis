@@ -18,7 +18,7 @@ app.post('/api/eval', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`Eval/code injection demo on http://localhost:${PORT}`);
 });
 

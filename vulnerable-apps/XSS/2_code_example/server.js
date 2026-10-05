@@ -10,6 +10,6 @@ app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`XSS demo 2 running at http://localhost:${PORT}`);
 });

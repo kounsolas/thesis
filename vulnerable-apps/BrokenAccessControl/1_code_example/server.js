@@ -26,6 +26,6 @@ app.get('/api/account/:id', (req, res) => {
   res.json(account);
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   // intentionally quiet to avoid leaking details via logs
 });

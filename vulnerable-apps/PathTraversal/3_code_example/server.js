@@ -23,7 +23,7 @@ app.get('/view', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`Path Traversal demo #3 running at http://localhost:${PORT}`);
 });
 

@@ -26,7 +26,7 @@ app.get('/download', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`Path Traversal demo #2 running on http://localhost:${PORT}`);
 });
 

@@ -43,7 +43,7 @@ app.get('/search', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`SQLi demo running on http://localhost:${PORT}`);
 });
 
