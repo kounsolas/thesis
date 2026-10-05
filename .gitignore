@@ -1,0 +1,21 @@
+# Dependencies: run `npm ci` inside an app folder
+node_modules/
+
+# SQLite databases created and seeded by the SQL injection demo servers
+*.db
+*.db-journal
+
+# Build by-products
+*.map
+
+# Logs, OS and editor files
+npm-debug.log*
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
