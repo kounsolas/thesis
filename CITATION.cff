@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the thesis below."
+title: "Creation of a Private Security Vulnerability Repair System Using Local Language Models"
+type: software
+authors:
+  - family-names: Kounsolas
+    given-names: Christos
+    affiliation: "Department of Electrical and Computer Engineering, Aristotle University of Thessaloniki"
+repository-code: "https://github.com/kounsolas/thesis"
+url: "https://github.com/kounsolas/thesis"
+keywords:
+  - automated program repair
+  - vulnerability repair
+  - static application security testing
+  - large language models
+  - software security
+preferred-citation:
+  type: thesis
+  title: "Creation of a Private Security Vulnerability Repair System Using Local Language Models"
+  authors:
+    - family-names: Kounsolas
+      given-names: Christos
+  thesis-type: "Diploma thesis"
+  institution:
+    name: "Aristotle University of Thessaloniki"
+    city: Thessaloniki
+    country: GR
+  department: "Department of Electrical and Computer Engineering"
+  year: 2025
+  month: 12
+  languages:
+    - el
+  url: "https://github.com/kounsolas/thesis/blob/main/docs/thesis_Kounsolas.pdf"
+  notes: "Original title in Greek. Supervision: Prof. Andreas Symeonidis, with PhD candidates Giorgos Siachamis and Dimosthenis Natsos."
