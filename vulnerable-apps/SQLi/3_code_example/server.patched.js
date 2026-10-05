@@ -33,18 +33,9 @@ db.serialize(() => {
 
 app.get('/search', (req, res) => {
   const q = (req.query.q || '').toString();
-  const sql = 
-    "SELECT id, title, company, location, description FROM jobs WHERE title LIKE '%" +
-    q +
-    "%' OR company LIKE '%" +
-    q +
-    "%' OR location LIKE '%" +
-    q +
-    "%' OR description LIKE '%" +
-    q +
-   "%'";
-
-  db.all(sql, (err, rows) => {
+  const sql = "SELECT id, title, company, location, description FROM jobs WHERE title LIKE ? OR company LIKE ? OR location LIKE ? OR description LIKE ?";
+  const searchParam = `%${q}%`;
+  db.all(sql, [searchParam, searchParam, searchParam, searchParam], (err, rows) => {
     if (err) {
       return res.status(500).json({ error: String(err) });
     }
